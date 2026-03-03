@@ -1,0 +1,14 @@
+- name: asset_lending_root
+  label: "Assets"
+  icon: "inventory"
+  priority: 1
+
+- name: asset_lending_assets
+  parent: asset_lending_root
+  model: asset_lending.asset
+  label: "Recursos"
+
+- name: asset_lending_loans
+  parent: asset_lending_root
+  model: asset_lending.loan
+  label: "Préstamos"

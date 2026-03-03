@@ -1,0 +1,19 @@
+asset_lending.asset:
+  list:
+    columns:
+      - { field: asset_code, width: 120 }
+      - { field: name, label: "Recurso" }
+      - { field: status, widget: chip }
+      - { field: location_id, label: "Ubicación" }
+
+asset_lending.loan:
+  list:
+    columns:
+      - asset_id
+      - borrower_user_id
+      - status: { widget: chip }
+    row_actions:
+      - label: "Devolver"
+        service_method: "return_asset"
+        icon: "mdi-keyboard-return"
+        visible_formula: "record.status == 'open'"
