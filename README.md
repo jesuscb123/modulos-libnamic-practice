@@ -223,3 +223,7 @@ El proyecto incluye de manera estandarizada un entorno pre-configurado garantiza
    * `postgres` (Base de datos relacional): Sirviendo nativamente mediante el puerto local de desarrollo `5432`.
    * `backend` (FastAPI / Motor de Licium Base): Resolviendo en el puerto `8000`. Expone el servidor web API y el backend administrativo, inyectando y montando en tiempo vivo los módulos en la ruta `/opt/licium/modules`.
    * `frontend` (Nuxt.js UI): Activo en el puerto `3000`. Es la interfaz moderna final interactiva conectada por peticiones asincrónicas a la API del backend.
+
+---
+##🚨Errores encontrados durante el proceso de creación de los módulos.
+[Errores encontrados](https://github.com/jesuscb123/modulos-libnamic-practice/blob/main/ERRORES_SOLUCIONES.md)
