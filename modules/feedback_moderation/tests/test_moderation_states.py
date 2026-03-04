@@ -20,7 +20,7 @@ def test_initial_state_is_pending_and_private(mock_super_create, mock_service):
     # Le decimos al mock que, cuando intente guardar, simplemente devuelva el diccionario
     mock_super_create.side_effect = lambda x: x
     
-    # Intentamos "hackear" el sistema mandando un JSON que dice ser público
+
     payload = {
         "title": "Añadir modo oscuro",
         "content": "Sería genial para la vista.",
@@ -40,12 +40,10 @@ def test_publish_transition_makes_it_public(mock_serialize, mock_get_user, mock_
     """Prueba la transición a publicada."""
     # Simulamos al usuario logueado
     mock_get_user.return_value = "uuid-del-moderador"
-    
-    # Simulamos que la base de datos encuentra la sugerencia
+
     fake_suggestion = Suggestion(id=1, status="pending", is_public=False)
     mock_service.repo.session.get.return_value = fake_suggestion
     
-    # Simulamos la función que convierte el objeto a JSON
     mock_serialize.side_effect = lambda obj: {"status": obj.status, "is_public": obj.is_public, "moderation_note": obj.moderation_note}
     
     result = mock_service.publish(id=1, note="Aprobado por moderación")
@@ -53,7 +51,6 @@ def test_publish_transition_makes_it_public(mock_serialize, mock_get_user, mock_
     assert result["status"] == "published"
     assert result["is_public"] is True
     assert result["moderation_note"] == "Aprobado por moderación"
-    # Verificamos que se ejecutó session.commit() (se guardó en base de datos)
     mock_service.repo.session.commit.assert_called_once()
 
 @patch("modules.feedback_moderation.services.feedback.get_current_user_id")
@@ -74,7 +71,6 @@ def test_reject_transition_keeps_it_private(mock_serialize, mock_get_user, mock_
 
 def test_merge_fails_if_target_is_same_as_source(mock_service):
     """Prueba la validación de negocio: no se puede fusionar un ticket consigo mismo."""
-    # En este caso, no necesitamos simular la BD porque la validación ocurre antes
     with pytest.raises(HTTPException) as exc_info:
         mock_service.merge(id=5, target_id=5, note="Merge loop")
         
