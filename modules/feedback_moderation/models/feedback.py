@@ -9,6 +9,7 @@ suggestion_tag_rel = Table(
     Base.metadata,
     Column("suggestion_id", Integer, ForeignKey("feedback_moderation_suggestion.id", ondelete="CASCADE"), primary_key=True),
     Column("tag_id", Integer, ForeignKey("feedback_moderation_tag.id", ondelete="CASCADE"), primary_key=True),
+    extend_existing = True,
 )
 
 class Tag(Base):
@@ -46,7 +47,11 @@ class Suggestion(Base):
     reviewed_by_id = field(UUID, ForeignKey("core_user.id"), required=False, public=True, editable=True)
     
     # Relación M2M
-    tags = relationship("Tag", secondary=suggestion_tag_rel, backref="suggestions", info={"public": True, "editable": True})
+    tags = relationship(
+        "modules.feedback_moderation.models.feedback.Tag",
+        secondary=suggestion_tag_rel,
+        info={"public": True, "editable": True}
+    )
 
 class Comment(Base):
     __tablename__ = "feedback_moderation_comment"

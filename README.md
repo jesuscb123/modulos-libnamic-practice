@@ -35,7 +35,7 @@ modulo-checkList/
 └── modules/                        # ➔ Directorio raíz de los submódulos de la aplicación
     ├── practice_checklist/         # Proyecto 1: Módulo de Checklists (Principal)
     ├── asset_lending/              # Proyecto 2: Módulo de Gestión de Activos y Préstamos
-    └── feedback_moderation/        # Proyecto 3: Módulo de Moderación de Feedback (En Proceso)
+    └── feedback_moderation/        # Proyecto 3: Módulo de Moderación de Feedback
 ```
 
 ---
@@ -102,9 +102,29 @@ asset_lending/
 
 ---
 
-### 📌 Proyecto 3: Moderación de Feedback (`feedback_moderation`) - En Construcción 🏗️
+### 📌 Nivel 3: Moderación de Feedback (`feedback_moderation`)
 
-Nuestra ruta evolutiva abarca un tercer módulo clave que, al día de hoy, se encuentra en plena fase de **diseño y construcción inicial**.
+Este módulo implementa un sistema estructurado de captura, clasificación y moderación de sugerencias y retroalimentación. Está diseñado para que los usuarios puedan aportar ideas (`Suggestions`) y comentarlas (`Comments`), mientras un equipo con rol de moderador aprueba, rechaza o fusiona estas aportaciones antes de hacerlas visibles de forma pública.
+
+#### 📂 Estructura Interna y Entidades
+
+```text
+feedback_moderation/
+├── __manifest__.yaml       # Define dependencias (requiere 'ui'), versión y orden de carga
+├── data/                   # Archivos de aprovisionamiento de configuración base (ACLs, grupos, etc.)
+├── models/
+│   └── feedback.py         # 🗄️ Definición ORM (SQLAlchemy) de los Modelos (Tag, Suggestion, Comment)
+├── services/
+│   └── feedback.py         # ⚙️ Servicios y manejadores transaccionales de moderación (publicar, rechazar, fusionar)
+└── views/                  # Elementos UI del backend inyectados en el core
+    ├── menu.yml            # Vías de navegación en el Front-End
+    └── views.yml           # Representación de los formularios y listas
+```
+
+#### 🗄️ Modelos Principales
+*   **`Suggestion`**: Entidad central que canaliza una idea o reporte. Almacena campos como `title`, `content` y `author_email`, controlando estrictamente su visibilidad mediante un manejador de estados `status` (Pendiente, Publicada, Rechazada, Fusionada) y el boolean `is_public`. Admite notas de revisión `moderation_note` de parte del moderador.
+*   **`Comment`**: Aportaciones adicionales y respuestas a una sugerencia específica (`suggestion_id`). Siguen un flujo de moderación idéntico al requerir validación explícita (`status`) previa a su publicación.
+*   **`Tag`**: Sistema de categorización ágil (`name`, `slug`, `color`) vinculado de forma Muchos-a-Muchos a las sugerencias, permitiendo agruparlas semánticamente.
 
 ---
 
@@ -125,4 +145,3 @@ El proyecto incluye de manera estandarizada un entorno pre-configurado garantiza
    * `postgres` (Base de datos relacional): Sirviendo nativamente mediante el puerto local de desarrollo `5432`.
    * `backend` (FastAPI / Motor de Licium Base): Resolviendo en el puerto `8000`. Expone el servidor web API y el backend administrativo, inyectando y montando en tiempo vivo los módulos en la ruta `/opt/licium/modules`.
    * `frontend` (Nuxt.js UI): Activo en el puerto `3000`. Es la interfaz moderna final interactiva conectada por peticiones asincrónicas a la API del backend.
-3. 🔄 *Hot Reloading*: Los módulos inyectados se re-evalúan y compilan en caliente de manera autónoma en tiempo real gracias a Uvicorn monitorizando sus orígenes y librerías externas.
