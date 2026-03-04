@@ -109,7 +109,7 @@ asset_lending/
 
 2. **Flujo completo checkout/return probado**
    * **Dónde está**: En `services/lending.py` (clase `AssetLoanService`).
-     https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/services/lending.py#L1-L90
+     https://github.com/jesuscb123/modulos-libnamic-practice/blob/e5a71c6a0232c83ddf197155a846d9f324d2a6f7/modules/asset_lending/services/lending.py#L35-L71
    * **Cómo se cumple**: 
      - **Checkout**: Sobrescribimos el método `create()`. Interceptamos la creación del préstamo, validamos que el recurso esté `available`, le cambiamos el estado a `loaned` para bloquearlo, e inyectamos la fecha actual en `checkout_at`.
        https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/services/lending.py#L38-L71
