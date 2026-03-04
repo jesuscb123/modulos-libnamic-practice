@@ -105,18 +105,24 @@ asset_lending/
 1. **Módulo instalable por CLI**
    * **Dónde está**: En la raíz del módulo (`__manifest__.yaml` y los `__init__.py`).
    * **Cómo se cumple**: Al crear el archivo `__manifest__.yaml` con los metadatos correctos (`name`, `version`, `depends`, y la lista ordenada en `data`), el framework (Licium) reconoce la carpeta como un módulo válido. Esto permite que al ejecutar el comando en la terminal (CLI) el sistema sepa en qué orden debe leer los YAML e inyectarlos en PostgreSQL.
+     https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/__manifest__.yaml#L1-L13
 
 2. **Flujo completo checkout/return probado**
    * **Dónde está**: En `services/lending.py` (clase `AssetLoanService`).
+     https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/services/lending.py#L1-L90
    * **Cómo se cumple**: 
      - **Checkout**: Sobrescribimos el método `create()`. Interceptamos la creación del préstamo, validamos que el recurso esté `available`, le cambiamos el estado a `loaned` para bloquearlo, e inyectamos la fecha actual en `checkout_at`.
+       https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/services/lending.py#L38-L71
      - **Return**: Creamos la función `@exposed_action` llamada `return_asset()`. Esta función busca el préstamo, le pone estado `returned` con su fecha final (`returned_at`), y acto seguido busca el portátil asociado y lo devuelve al estado `available`.
+     - https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/services/lending.py#L73-L90
 
 3. **Vistas admin funcionales**
    * **Dónde está**: En la carpeta `views/` (`views.yml` y `menu.yml`).
    * **Cómo se cumple**: 
      - En `views.yml` definimos las tablas de datos (`ui_view_type_list`) y los formularios (`ui_view_type_form`) para `Location`, `Asset` y `Loan`.
+       https://github.com/jesuscb123/modulos-libnamic-practice/blob/85077e575324eded9ab45130eb8cdcd646631e26/modules/asset_lending/views/views.yml#L9-L19
      - Cumplimos la recomendación didáctica añadiendo `chip: true` al campo `status` para que salgan las píldoras de colores, y añadiendo el bloque `row_actions` para que el botón de "Devolver Recurso" aparezca directamente en cada fila de la tabla.
+       
      - En `menu.yml` conectamos estas vistas al menú lateral del administrador.
 
 4. **ACL separada por lector/gestor**
