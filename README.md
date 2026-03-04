@@ -225,5 +225,11 @@ El proyecto incluye de manera estandarizada un entorno pre-configurado garantiza
    * `frontend` (Nuxt.js UI): Activo en el puerto `3000`. Es la interfaz moderna final interactiva conectada por peticiones asincrónicas a la API del backend.
 
 ---
-##🚨Errores encontrados durante el proceso de creación de los módulos.
-[Errores encontrados](https://github.com/jesuscb123/modulos-libnamic-practice/blob/main/ERRORES_SOLUCIONES.md)
+
+## 🚨 Troubleshooting y Base de Conocimiento
+
+Durante el desarrollo e integración de los distintos módulos (especialmente en los niveles de Gestión de Préstamos y Moderación de Feedback), nos hemos enfrentado a diversos retos técnicos. Estos incluyen desde conflictos con las listas de control de acceso (ACLs) y validaciones de tipos de datos contra PostgreSQL, hasta la configuración adecuada de entornos aislados para tests unitarios usando Pytest y uniones de bases de datos.
+
+Toda esta experiencia y curva de aprendizaje ha sido documentada detallando cuál era el **síntoma**, la **causa raíz** y la **solución** implementada para estabilizar el sistema. 
+
+👉 [**Consultar el Registro Completo de Errores y Soluciones**](https://github.com/jesuscb123/modulos-libnamic-practice/blob/main/ERRORES_SOLUCIONES.md)
